@@ -2,6 +2,7 @@ package umm3601.todo;
 
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
+import umm3601.user.Database;
 
 
 public class TodoController {
@@ -9,20 +10,20 @@ public class TodoController {
   private TodoDatabase database;
 
   /**
-   * Construct a controller for users.
+   * Construct a controller for todos.
    * <p>
-   * This loads the "database" of user info from a JSON file and stores that
-   * internally so that (subsets of) users can be returned in response to
+   * This loads the "database" of todo info from a JSON file and stores that
+   * internally so that (subsets of) todos can be returned in response to
    * requests.
    *
-   * @param database the `Database` containing user data
+   * @param todoDatabase the `Database` containing todo data
    */
-  public TodoController(TodoDatabase database) {
-    this.database = database;
+  public TodoController(TodoDatabase todoDatabase) {
+    this.database = todoDatabase;
   }
 
   /**
-   * Get the single user specified by the `id` parameter in the request.
+   * Get the single todo specified by the owner parameter in the request.
    *
    * @param ctx a Javalin HTTP context
    */
@@ -38,7 +39,7 @@ public class TodoController {
   }
 
   /**
-   * Get a JSON response with a list of all the users in the "database".
+   * Get a JSON response with a list of all the todos in the "database".
    *
    * @param ctx a Javalin HTTP context
    */

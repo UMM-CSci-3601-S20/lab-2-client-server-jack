@@ -26,8 +26,8 @@ public class TodoDatabase {
   }
 
   /**
-   * Get the todo specified by the given ID. Return `null` if there is no
-   * todo with that ID.
+   * Get the todo specified by the given owner. Return `null` if there is no
+   * todo with that owner.
    *
    * @param owner the owner of the desired todo
    * @return the todo with the given owner, or null if there is no todo with that owner
@@ -46,16 +46,18 @@ public class TodoDatabase {
     Todo[] filteredTodos = allTodos;
 
     // Filter owner if defined
+    System.out.println("listTodos");
     if (queryParams.containsKey("owner")) {
       String ownerParam = queryParams.get("owner").get(0);
+      System.out.println(ownerParam);
       try {
-        String targetOwner = "owner";
-        filteredTodos = filterTodosByOwner(filteredTodos, targetOwner);
+        filteredTodos = filterTodosByOwner(filteredTodos, ownerParam);
+        System.out.println(filteredTodos.length);
       } catch (NumberFormatException e) {
         throw new BadRequestResponse("Specified owner '" + ownerParam + "' can't be found");
       }
     }
-    // Filter cateogy if defined
+    // Filter category if defined
     if (queryParams.containsKey("category")) {
       String targetCategory = queryParams.get("category").get(0);
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
@@ -66,24 +68,24 @@ public class TodoDatabase {
   }
 
   /**
-   * Get an array of all the users having the target age.
+   * Get an array of all the todos having the target owner.
    *
-   * @param users     the list of users to filter by age
-   * @param targetAge the target age to look for
-   * @return an array of all the users from the given list that have the target
-   *         age
+   * @param todos     the list of todos to filter by owner
+   * @param targetOwner the target owner to look for
+   * @return an array of all the todos from the given list that have the target
+   *         owner
    */
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
-    return Arrays.stream(todos).filter(x -> x.owner == targetOwner).toArray(Todo[]::new);
+    return Arrays.stream(todos).filter(x -> x.owner.equals(targetOwner)).toArray(Todo[]::new);
   }
 
   /**
-   * Get an array of all the users having the target company.
+   * Get an array of all the todos having the target category.
    *
-   * @param users         the list of users to filter by company
-   * @param targetCompany the target company to look for
-   * @return an array of all the users from the given list that have the target
-   *         company
+   * @param todos         the list of todos to filter by category
+   * @param targetCategory the target category to look for
+   * @return an array of all the todos from the given list that have the target
+   *         category
    */
   public Todo[] filterTodosByCategory(Todo[] todos, String targetCategory) {
     return Arrays.stream(todos).filter(x -> x.category.equals(targetCategory)).toArray(Todo[]::new);
