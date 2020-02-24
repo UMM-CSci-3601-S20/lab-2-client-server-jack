@@ -46,7 +46,6 @@ public class TodoDatabase {
     Todo[] filteredTodos = allTodos;
 
     // Filter owner if defined
-    System.out.println("listTodos");
     if (queryParams.containsKey("owner")) {
       String ownerParam = queryParams.get("owner").get(0);
       System.out.println(ownerParam);
@@ -63,7 +62,12 @@ public class TodoDatabase {
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
     }
     // Process other query parameters here...
-
+    System.out.println("test 1");
+    if (queryParams.containsKey("body")) {
+      System.out.println("test 2");
+      String targetBody = queryParams.get("body").get(0);
+      filteredTodos = filterTodosByBody(filteredTodos, targetBody);
+    }
     return filteredTodos;
   }
 
@@ -91,4 +95,11 @@ public class TodoDatabase {
     return Arrays.stream(todos).filter(x -> x.category.equals(targetCategory)).toArray(Todo[]::new);
   }
 
+  public Todo[] filterTodosByBody(Todo[] todos, String targetBody) {
+    return Arrays.stream(todos).filter(x -> x.body.equals(targetBody)).toArray(Todo[]::new);
+  }
+
+  public Todo[] filterTodosByStatus(Todo[] todos, String targetStatus) {
+    return Arrays.stream(todos).filter(x -> x.status.equals(targetStatus)).toArray(Todo[]::new);
+  }
 }
