@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
+import umm3601.todo.TodoController;
 import umm3601.user.Database;
 import umm3601.user.UserController;
 
@@ -34,9 +35,8 @@ public class Server {
 
     // API endpoints
 
-    // Get specific user
+    // Get specific user and specific todo
     server.get("api/users/:id", ctx -> userController.getUser(ctx));
-
     // List users, filtered using query parameters
     server.get("api/users", ctx -> userController.getUsers(ctx));
 
